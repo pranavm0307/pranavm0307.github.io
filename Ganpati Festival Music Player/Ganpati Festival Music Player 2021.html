@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<title>Ganpati Festival Music Player 2021</title>
+
+<meta charset="UTF-8" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta name="description" content="music player" />
+
+<meta name="keywords" content="HTML, CSS, JavaScript , GFG , music player , sololearn" />
+
+<meta name="author" content="Nirbhay" />    
+
+<style>@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+
+body {
+background:linear-gradient(120deg,#ff99ab 10%,#ff859a 25%,#ff4a6a 65%);
+color:#ff2349;
+font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+height:100%;
+width:90%;
+background:#fff;
+margin-left:auto;
+margin-right:auto;
+border-radius:40px; 
+background:#ffe7eb;
+}
+ 
+.main {
+height: 97.4vh;
+display: flex;
+align-items: center;
+flex-direction: column;
+justify-content: center;
+}
+ 
+.format {
+display: flex;
+align-items: center;
+flex-direction: column;
+justify-content: center;
+}
+ 
+.track-art {
+height: 200px;
+width: 200px;
+/*background-image: URL("https://source.unsplash.com/Qrspubmx6kE/640x360");*/
+background-size: cover;
+background-position: center;
+border-radius: 30px;
+margin-bottom:20px;
+margin-top:0%;
+border:4px solid #ff4a6a;
+}
+ 
+.track-name {
+font-size:2rem;
+padding-bottom:10px;
+}
+ 
+.track-artist {
+font-size: 1.2rem;
+padding-top:5px;
+}
+ 
+.buttons {
+display: flex;
+flex-direction: row;
+align-items: center;
+}
+ 
+.playpause-track, .prev-track, .next-track {
+padding: 20px;
+padding-bottom:0px;
+opacity: 0.8;
+transition: opacity .2s;
+}
+ 
+.playpause-track:hover,.prev-track:hover,.next-track:hover {
+opacity: 1.0;
+}
+ 
+.slider_container {
+width: 95%;
+max-width: 400px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+ 
+.seek_slider, .volume_slider {
+-webkit-appearance: none;
+appearance: none;
+height: 7.5px;
+background:#ff2349;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+border-radius:7px;
+}
+ 
+.seek_slider::-webkit-slider-thumb,
+.volume_slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+width: 15px;
+height: 15px;
+background:#ff859a;
+cursor: pointer;
+border-radius: 50%;
+}
+ 
+.seek_slider:hover,.volume_slider:hover {
+opacity: 1.0;
+}
+ 
+.seek_slider {
+width: 100%;
+}
+ 
+.volume_slider {
+width: 75%;
+}
+ 
+.current-time,.total-duration {
+padding: 15px;
+}
+ 
+i.fa-volume-down,i.fa-volume-up {
+padding: 15px;
+}
+
+.icon {
+padding:20px;
+}
+
+span {
+color:#ff2349;
+}
+
+.tools {
+padding:10px;
+}
+
+#clock {
+padding:20px;
+font-size:20px;
+}
+
+#icon5 {
+color:#ffc0cb;
+}
+
+#icon4 {
+color:#ffc0cb;
+}
+
+#icon6 {
+color:#ffc0cb;
+}
+
+#a {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:2%;
+animation:fall1 5s linear infinite;
+animation-delay:0s;
+color:#ff2727;
+}
+
+#b {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:6%;
+animation:fall2 5s linear infinite;
+animation-delay:1s;
+color:#ff2727;
+}
+
+#c {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:11%;
+animation:fall3 5s linear infinite;
+animation-delay:0.5s;
+color:#ff2727;
+}
+
+#d {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:17%;
+animation:fall4 5s linear infinite;
+animation-delay:1.7s;
+color:#ff2727;
+}
+
+#e {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:25%;
+animation:fall5 5s linear infinite;
+animation-delay:0s;
+color:#ff2727;
+}
+
+#f {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:35%;
+animation:fall6 5s linear infinite;
+animation-delay:1s;
+color:#ff2727;
+}
+
+#g {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:45%;
+animation:fall7 5s linear infinite;
+animation-delay:1.5s;
+color:#ff2727;
+}
+
+#h {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:55%;
+animation:fall8 5s linear infinite;
+animation-delay:0.5s;
+color:#ff2727;
+}
+
+#i {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:65%;
+animation:fall9 5s linear infinite;
+animation-delay:0s;
+color:#ff2727;
+}
+
+#j {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:75%;
+animation:fall10 5s linear infinite;
+animation-delay:1s;
+color:#ff2727;
+}
+
+#k {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:85%;
+animation:fall11 5s linear infinite;
+animation-delay:1.7s;
+color:#ff2727;
+}
+
+#l {
+font-size:20px;
+position:absolute;
+top:-5%;
+left:95%;
+animation:fall12 5s linear infinite;
+animation-delay:0.5s;
+color:#ff2727;
+}
+
+@keyframes fall1 {
+
+0%   { top:1%;  left:2%;  }
+25%  { top:15%; left:5%;  }
+50%  { top:30%; left:3%;  }
+75%  { top:45%; left:6%;  }
+100% { top:60%; left:1%;  }
+}
+
+@keyframes fall2 {
+
+0%   { top:1%;  left:10%;  }
+25%  { top:15%; left:14%;  }
+50%  { top:30%; left:12%;  }
+75%  { top:45%; left:17%;  }
+100% { top:60%; left:10%;  }
+}
+
+@keyframes fall3 {
+
+0%   { top:1%;  left:20%;  }
+25%  { top:15%; left:24%;  }
+50%  { top:30%; left:18%;  }
+75%  { top:45%; left:21%;  }
+100% { top:60%; left:13%;  }
+}
+
+@keyframes fall4 {
+
+0%   { top:1%;  left:28%;  }
+25%  { top:15%; left:22%;  }
+50%  { top:30%; left:25%;  }
+75%  { top:45%; left:20%;  }
+100% { top:60%; left:17%;  }
+}
+
+@keyframes fall5 {
+
+0%   { top:1%;  left:38%;  }
+25%  { top:15%; left:32%;  }
+50%  { top:30%; left:34%;  }
+75%  { top:45%; left:30%;  }
+100% { top:60%; left:37%;  }
+}
+
+@keyframes fall6 {
+
+0%   { top:1%;  left:50%;  }
+25%  { top:15%; left:42%;  }
+50%  { top:30%; left:47%;  }
+75%  { top:45%; left:40%;  }
+100% { top:60%; left:49%;  }
+}
+
+@keyframes fall7 {
+
+0%   { top:1%;  left:60%;  }
+25%  { top:15%; left:55%;  }
+50%  { top:30%; left:49%;  }
+75%  { top:45%; left:56%;  }
+100% { top:60%; left:51%;  }
+}
+
+@keyframes fall8 {
+
+0%   { top:1%;  left:67%;  }
+25%  { top:15%; left:61%;  }
+50%  { top:30%; left:56%;  }
+75%  { top:45%; left:65%;  }
+100% { top:60%; left:71%;  }
+}
+
+@keyframes fall9 {
+
+0%   { top:1%;  left:75%;  }
+25%  { top:15%; left:68%;  }
+50%  { top:30%; left:65%;  }
+75%  { top:45%; left:56%;  }
+100% { top:60%; left:55%;  }
+}
+
+@keyframes fall10 {
+
+0%   { top:1%;  left:85%;  }
+25%  { top:15%; left:75%;  }
+50%  { top:30%; left:63%;  }
+75%  { top:45%; left:71%;  }
+100% { top:60%; left:80%;  }
+}
+
+@keyframes fall11 {
+
+0%   { top:1%;  left:93%;  }
+25%  { top:15%; left:80%;  }
+50%  { top:30%; left:76%;  }
+75%  { top:45%; left:94%;  }
+100% { top:60%; left:82%;  }
+}
+
+@keyframes fall12 {
+
+0%   { top:1%;  left:99%;  }
+25%  { top:15%; left:87%;  }
+50%  { top:30%; left:95%;  }
+75%  { top:45%; left:80%;  }
+100% { top:60%; left:87%;  }
+}</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+</head>
+
+<body id="body">
+
+<span class="fas fa-music" id="a"></span>
+<span class="fas fa-music" id="b"></span>
+<span class="fas fa-music" id="c"></span>
+<span class="fas fa-music" id="d"></span>
+<span class="fas fa-music" id="e"></span>
+<span class="fas fa-music" id="f"></span>
+<span class="fas fa-music" id="g"></span>
+<span class="fas fa-music" id="h"></span>
+<span class="fas fa-music" id="i"></span>
+<span class="fas fa-music" id="j"></span>
+<span class="fas fa-music" id="k"></span>
+<span class="fas fa-music" id="l"></span>
+
+<div class="container">
+
+<div class="main">
+ 
+<div class="format">
+
+<div id="clock">00:00:00</div>
+
+<div class="track-art"></div>
+
+<div class="track-name">Track Name</div>
+
+<div class="track-artist">Track Artist</div>
+
+</div>
+ 
+<div class="buttons">
+
+<div class="prev-track" onclick="prevTrack()">
+
+<span class="fa fa-step-backward fa-2x" id="icon1"></span>
+
+</div>
+
+<div class="playpause-track" onclick="playpauseTrack()">
+
+<span class="fa fa-play-circle fa-4x" id="icon2"></span>
+
+</div>
+
+<div class="next-track" onclick="nextTrack()">
+
+<span class="fa fa-step-forward fa-2x" id="icon3"></span>
+
+</div>
+
+</div>
+
+<div class="tools">
+    
+<span class="fa fa-random icon fa-2x" id="icon4" onclick="random()"></span>
+
+<span class="fa fa-heart icon fa-2x" id="icon5" onclick="like()"></span>
+
+<span class="fa fa-volume-mute icon fa-2x" id="icon6" onclick="mute()"></span>
+
+</div>
+
+<div class="slider_container">
+
+<div class="current-time">00:00</div>
+
+<input type="range" min="1" max="100"
+value="0" class="seek_slider" onchange="seekTo()" id="seek">
+
+<div class="total-duration">00:00</div>
+
+</div>
+ 
+<div class="slider_container">
+
+<span class="fa fa-volume-down" id="icon7"></span>
+
+<input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()" id="volume">
+
+<span class="fa fa-volume-up" id="icon8"></span>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+<script>
+    
+let now_playing = document.querySelector(".now-playing");
+
+let track_art = document.querySelector(".track-art");
+
+let track_name = document.querySelector(".track-name");
+
+let track_artist = document.querySelector(".track-artist");
+ 
+
+let playpause_btn = document.querySelector(".playpause-track");
+
+let next_btn = document.querySelector(".next-track");
+
+let prev_btn = document.querySelector(".prev-track");
+ 
+
+let seek_slider = document.querySelector(".seek_slider");
+
+let volume_slider = document.querySelector(".volume_slider");
+
+let curr_time = document.querySelector(".current-time");
+
+let total_duration = document.querySelector(".total-duration");
+
+let track_index = 0;
+
+let isPlaying = false;
+
+let updateTimer;
+ 
+
+let curr_track = document.createElement('audio');
+ 
+let track_list = [
+
+{
+name: "Friends",
+artist: "Annne marie",
+image:"https://i.ibb.co/gyMx6jp/MV5-BNm-Y0-OWFl-Mz-Yt-MDNk-ZC00-YTdh-LWI4-ZWEt-M2-I5-OWZl-Yz-Vk-NGQz-Xk-Ey-Xk-Fqc-Gde-QXVy-Nj-E0-ODc.jpg",
+path:"https://dl.dropbox.com/s/u71atlmtiuqy0sh/marshmello%20%26%20anne-marie%20-%20friends%20official%20friendzone%20anthem%20.mp3?dl=0"
+},
+
+{
+name: "on and on",
+artist: "daniel levi, cartoon",
+image:"https://i.ibb.co/HrSqtBf/on-on-feat-daniel-levi-1586947008-oe-I24in2-Ga.jpg",
+path:"https://dl.dropbox.com/s/ffjre8pa1rwyos0/cartoon%20-%20on%20%26%20on%20feat.%20daniel%20levi.mp3?dl=0"
+},
+
+{
+name: "lily",
+artist: "Alan walker, K-391",
+image:"https://i.ibb.co/QrDKg6D/artworks-000505975749-bzcc02-t500x500.jpg",
+path:"https://dl.dropbox.com/s/dbjlg9vlnxfigna/alan%20walker%2C%20k-391%20%26%20emelie%20hollow%20-%20lily.mp3?dl=0"
+},
+
+{
+name: "The spectre",
+artist: "Alan walker",
+image: "https://i.ibb.co/b63hHBh/sddefault.jpg",
+path:"https://dl.dropbox.com/s/m872xq4clz4v2me/Alan%20Walker%20-%20The%20Spectre.mp3?dl=0"
+},
+
+{
+name: "Lut gaye",
+artist: "Jubin nautiyal",
+image:"https://i.ibb.co/JyxNSHJ/size-xxl.jpg",
+path:"https://dl.dropbox.com/s/nwdabj6mep7htaz/lut%20gaye%20-%20jubin%20nautiyal%20emraan%20hashmi%2C%20yukti%20thareja%20tanishk%20bagchi%2C%20manoj%20muntashir.mp3?dl=0"
+},
+
+{
+name: "Fearless pt 2",
+artist: "Chris linton (NCS)",
+image:"https://i.ibb.co/tZTfhMN/fearless-pt-ii-feat-chris-linton-1586953398-Ys-Sdm2v-Gwu.jpg",
+path:"https://dl.dropbox.com/s/nbjfg8jju9eq12o/lost%20sky%20-%20fearless%20pt.ii%20%28feat.%20chris%20linton%29%20%5Bncs%20release%5D.mp3?dl=0"
+},
+
+{
+name: "Faded",
+artist: "Alan walker",
+image:"https://i.ibb.co/gmkbSmB/maxresdefault.jpg",
+path:"https://dl.dropbox.com/s/nxn9ikzexquz62q/Faded%28PaglaSongs%29.mp3?dl=0"
+},
+
+
+{
+name: "it's ain't me",
+artist: "Kygo, selena gomez",
+image:"https://i.ibb.co/wS0c3vy/It-Ain-t-Me-Official-Single-Cover-by-Kygo-Selena-Gomez.png",
+path:"https://dl.dropbox.com/s/8ropc1e0t0bdti7/kygo%2C%20selena%20gomez%20-%20it%20ain%20t%20me%20%28official%20video%29.mp3?dl=0"
+},
+
+{
+name: "teri mitti",
+artist: "manoj muntashir",
+image: "https://i.ibb.co/5c8Nzg0/68426152.jpg",
+path:"https://dl.dropbox.com/s/uufy5zu12yv1tqg/teri%20mitti%20-%20kesari%20akshay%20kumar%20%26%20parineeti%20chopra%20arko%20b%20praak%20manoj%20muntashir.mp3?dl=0",
+},
+
+{
+name: "Ghungroo",
+artist: "arijit singh",
+image:"https://i.ibb.co/N7hfw9K/size-xxl-1567659563.webp",
+path:"https://dl.dropbox.com/s/929y795pfe4k8nd/ghungroo%20full%20song%20war%20hrithik%2C%20vaani%2C%20arijit%20singh%2C%20shilpa%20vishal%20%26%20shekhar%2C%20kumaar.mp3?dl=0"
+},
+
+{
+name: "tera yaar hu main",
+artist: "arijit singh",
+image:"https://i.ibb.co/7XyqBbL/artworks-000509482761-b6y4ob-t500x500.jpg",
+path:"https://dl.dropbox.com/s/is8ixvvxmykf17e/Tera%20Yaar%20Hoon%20Main%20320%20Kbps.mp3?dl=0"
+},
+
+
+{
+name: "Heroes tonight",
+artist: "janji and johnning",
+image:"https://i.ibb.co/Sd45s6T/hqdefault.jpg",
+path:"https://dl.dropbox.com/s/xvm4fimqx38wxrw/janji%20-%20heroes%20tonight%20%28feat.%20johnning%29%20%5Bncs%20release%5D.mp3?dl=0"
+},
+
+{
+name: "señorita",
+artist: "camilla cabello",
+image:"https://i.ibb.co/7j4bQ0r/artworks-000556991832-l4o08x-t500x500.jpg",
+path:"https://dl.dropbox.com/s/e7d3kagcxwjjp0l/shawn%20mendes%2C%20camila%20cabello%20-%20se%C3%B1orita.mp3?dl=0"
+},
+
+{
+name: "Good 4 U",
+artist: "olivia rodrigo",
+image:"https://i.ibb.co/ykr8yyH/Fv-HKF4r-FFy-Sd-FY3-U7.jpg",
+path:"https://dl.dropbox.com/s/uown780ykqzp2ur/olivia%20rodrigo%20-%20good%204%20u.mp3?dl=0"
+},
+
+
+
+];
+
+function loadTrack(track_index) {
+clearInterval(updateTimer);
+resetValues();
+ 
+curr_track.src = track_list[track_index].path;
+curr_track.load();
+ 
+track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
+
+track_name.textContent = track_list[track_index].name;
+
+track_artist.textContent = track_list[track_index].artist;
+
+ 
+updateTimer = setInterval(seekUpdate, 1000);
+ 
+curr_track.addEventListener("ended", nextTrack);
+
+}
+
+
+function resetValues() {
+curr_time.textContent = "00:00";
+total_duration.textContent = "00:00";
+seek_slider.value = 0;
+}
+
+function playpauseTrack() {
+if (!isPlaying) playTrack();
+else pauseTrack();
+}
+ 
+
+function playTrack() {
+curr_track.play();
+isPlaying = true;
+playpause_btn.innerHTML = '<span class="fa fa-pause-circle fa-4x" id="icon10"></span>';
+}
+ 
+
+function pauseTrack() {
+curr_track.pause();
+isPlaying = false;
+playpause_btn.innerHTML = '<span class="fa fa-play-circle fa-4x" id="icon9"></span>';;
+}
+ 
+
+function nextTrack() {
+if (track_index < track_list.length - 1)
+track_index += 1;
+else track_index = 0;
+loadTrack(track_index);
+playTrack();
+}
+ 
+
+function prevTrack() {
+if (track_index > 0)
+track_index -= 1;
+else track_index = track_list.length;
+loadTrack(track_index);
+playTrack();
+}
+
+function seekTo() {
+seekto = curr_track.duration * (seek_slider.value / 100);
+curr_track.currentTime = seekto;
+}
+ 
+function setVolume() {
+curr_track.volume = volume_slider.value / 100;
+}
+ 
+function seekUpdate() {
+
+let seekPosition = 0;
+
+if (!isNaN(curr_track.duration)) {
+
+seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+
+seek_slider.value = seekPosition;
+
+let currentMinutes = Math.floor(curr_track.currentTime / 60);
+
+let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+
+let durationMinutes = Math.floor(curr_track.duration / 60);
+
+let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+
+
+if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
+
+if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+
+if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
+
+if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+ 
+curr_time.textContent = currentMinutes + ":" + currentSeconds;
+
+total_duration.textContent = durationMinutes + ":" + durationSeconds;
+
+}
+}
+loadTrack(track_index);
+
+function time() {
+var today = new Date();
+var h = today.getHours();
+var m = today.getMinutes();
+var s = today.getSeconds();
+m = correctTime(m);
+s = correctTime(s);
+document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+var t = setTimeout(time, 1000);
+}
+
+function correctTime(i) {
+if (i < 10) {
+i = "0" + i;
+}
+return i;
+}
+time();
+
+
+function like() {
+document.getElementById("icon5").style.color = "#ff4a6a" ;
+}
+
+function random() {
+document.getElementById("icon4").style.color = "#ff4a6a" ;
+}
+
+function mute() {
+document.getElementById("icon6").style.color = "#ff4a6a" ;
+}
+
+
+</script>
+
+</body>
+
+</html>
