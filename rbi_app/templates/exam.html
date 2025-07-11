@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exam - RBI Descriptive Writing</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      color: #2d3748;
+    }
+    
+    .exam-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 20px;
+    }
+    
+    .exam-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px 30px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .exam-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .exam-subtitle {
+      color: #718096;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .main-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      min-height: 0;
+    }
+    
+    .writing-area {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .timer-card, .stats-card, .actions-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .timer-display {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .status-active {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+    }
+    
+    .status-paused {
+      background: linear-gradient(135deg, #ed8936, #dd6b20);
+      color: white;
+    }
+    
+    .timer-controls {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-timer {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+      color: #4a5568;
+    }
+    
+    .btn-timer:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-pause {
+      background: linear-gradient(135deg, #fbb6ce, #f687b3);
+      color: white;
+    }
+    
+    .btn-resume {
+      background: linear-gradient(135deg, #9ae6b4, #68d391);
+      color: white;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #4a5568;
+      font-size: 0.9rem;
+    }
+    
+    .form-input {
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      background: rgba(255, 255, 255, 1);
+    }
+    
+    .form-textarea {
+      flex: 1;
+      resize: none;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      line-height: 1.7;
+      min-height: 200px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+    
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #667eea;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: #718096;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    
+    .actions-grid {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .btn-action {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #a0aec0, #718096);
+      color: white;
+    }
+    
+    .auto-save-status {
+      font-size: 0.75rem;
+      color: #68d391;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 10px;
+    }
+    
+    .message-area {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      max-width: 300px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .message-area.show {
+      transform: translateX(0);
+    }
+    
+    .text-success {
+      background: linear-gradient(135deg, #9ae6b4, #68d391);
+      color: white;
+    }
+    
+    .text-danger {
+      background: linear-gradient(135deg, #feb2b2, #fc8181);
+      color: white;
+    }
+    
+    .text-warning {
+      background: linear-gradient(135deg, #fbb6ce, #f687b3);
+      color: white;
+    }
+    
+    .text-info {
+      background: linear-gradient(135deg, #90cdf4, #63b3ed);
+      color: white;
+    }
+    
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+      
+      .sidebar {
+        flex-direction: row;
+        gap: 15px;
+      }
+      
+      .timer-card, .stats-card, .actions-card {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .exam-container {
+        padding: 15px;
+        gap: 15px;
+      }
+      
+      .sidebar {
+        flex-direction: column;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .timer-display {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="exam-container">
+    <!-- Header Section -->
+    <div class="exam-header">
+      <h1 class="exam-title">RBI Grade B - Descriptive Writing</h1>
+      <p class="exam-subtitle">Reserve Bank of India | Officer Grade B | Phase II</p>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Writing Area -->
+      <div class="writing-area">
+        <!-- Title Input -->
+        <div class="form-group">
+          <label class="form-label" for="title">Essay/Letter Title</label>
+          <input id="title" class="form-input" placeholder="Enter your title here..." maxlength="200">
+        </div>
+
+        <!-- Content Input -->
+        <div class="form-group" style="flex: 1; display: flex; flex-direction: column;">
+          <label class="form-label" for="content">Main Content</label>
+          <textarea id="content" class="form-input form-textarea" placeholder="Begin writing your response here. The timer will start automatically when you begin typing..." maxlength="50000"></textarea>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Timer Card -->
+        <div class="timer-card">
+          <div class="card-title">⏱️ Timer</div>
+          <div id="timer" class="timer-display">00:00</div>
+          <div id="status" class="status-badge status-active">Ready</div>
+          <div class="timer-controls">
+            <button id="pauseBtn" class="btn-timer btn-pause" onclick="toggleTimer()">⏸</button>
+            <button class="btn-timer" onclick="resetTimer()">🔄</button>
+          </div>
+        </div>
+
+        <!-- Statistics Card -->
+        <div class="stats-card">
+          <div class="card-title">📊 Statistics</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-value"><span id="wordCount">0</span></span>
+              <span class="stat-label">Words</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value"><span id="typingSpeed">0</span></span>
+              <span class="stat-label">WPM</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value auto-save-status" id="autoSaveStatus">✓</span>
+              <span class="stat-label">Auto-Save</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Card -->
+        <div class="actions-card">
+          <div class="card-title">🎯 Actions</div>
+          <div class="actions-grid">
+            <button class="btn-action btn-primary" onclick="submitArticle()">✓ Submit</button>
+            <button class="btn-action btn-secondary" onclick="copyContent()">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Area -->
+    <div class="message-area" id="messageContainer">
+      <p id="message"></p>
+    </div>
+  </div>
+
+<script>
+  // Fixed: Constants for better maintainability
+  const STORAGE_KEYS = {
+    START_TIME: 'examStartTime',
+    TITLE: 'examTitle',
+    CONTENT: 'examContent',
+    WORD_COUNT: 'examWordCount',
+    IS_PAUSED: 'examIsPaused',
+    PAUSE_DURATION: 'examPauseDuration'
+  };
+
+  const MS_PER_MINUTE = 60000;
+  const AUTO_SAVE_INTERVAL = 10000; // 10 seconds
+
+  // Fixed: Better state management
+  let examState = {
+    startTime: null,
+    timerStarted: false,
+    timerPaused: false,
+    timerInterval: null,
+    typingInterval: null,
+    autoSaveInterval: null,
+    pauseStartTime: null,
+    totalPauseDuration: 0,
+    lastTypingTime: null,
+    totalKeystrokes: 0
+  };
+
+  // Fixed: Initialize exam on page load
+  window.addEventListener('load', function() {
+    initializeExam();
+    setupAutoSave();
+    setupBeforeUnload();
+  });
+
+  function initializeExam() {
+    // Restore exam state from localStorage
+    const savedStartTime = localStorage.getItem(STORAGE_KEYS.START_TIME);
+    const savedTitle = localStorage.getItem(STORAGE_KEYS.TITLE);
+    const savedContent = localStorage.getItem(STORAGE_KEYS.CONTENT);
+    const savedPauseDuration = localStorage.getItem(STORAGE_KEYS.PAUSE_DURATION);
+    const wasPaused = localStorage.getItem(STORAGE_KEYS.IS_PAUSED) === 'true';
+
+    if (savedTitle) {
+      document.getElementById("title").value = savedTitle;
+    }
+
+    if (savedContent) {
+      document.getElementById("content").value = savedContent;
+      updateWordCount();
+    }
+
+    if (savedStartTime) {
+      examState.startTime = parseInt(savedStartTime);
+      examState.timerStarted = true;
+      examState.totalPauseDuration = parseInt(savedPauseDuration) || 0;
+
+      if (wasPaused) {
+        // Resume from paused state
+        examState.timerPaused = true;
+        updateStatus('paused');
+        document.getElementById("pauseBtn").innerHTML = "▶ Resume";
+        document.getElementById("pauseBtn").className = "btn-timer btn-resume";
+      } else {
+        // Resume active timer
+        startActiveTimer();
+      }
+      
+      updateTimer();
+    }
+
+    // Show recovery message if data was restored
+    if (savedTitle || savedContent) {
+      showMessage("Previous exam session restored!", "success");
+    }
+  }
+
+  function startTimer() {
+    if (examState.timerStarted) return;
+    
+    examState.startTime = Date.now();
+    examState.timerStarted = true;
+    examState.totalPauseDuration = 0;
+    
+    // Save to localStorage
+    localStorage.setItem(STORAGE_KEYS.START_TIME, examState.startTime);
+    localStorage.setItem(STORAGE_KEYS.PAUSE_DURATION, 0);
+    localStorage.setItem(STORAGE_KEYS.IS_PAUSED, 'false');
+    
+    startActiveTimer();
+    updateStatus('active');
+    showMessage("Timer started! Good luck with your exam.", "info");
+  }
+
+  function startActiveTimer() {
+    examState.timerInterval = setInterval(updateTimer, 1000);
+    examState.typingInterval = setInterval(updateTypingStats, 1000);
+  }
+
+  function stopActiveTimer() {
+    clearInterval(examState.timerInterval);
+    clearInterval(examState.typingInterval);
+  }
+
+  function updateTimer() {
+    if (!examState.timerStarted || !examState.startTime) return;
+    
+    let elapsed;
+    if (examState.timerPaused) {
+      // Show time up to when paused
+      elapsed = (examState.pauseStartTime - examState.startTime - examState.totalPauseDuration) / 1000;
+    } else {
+      // Show current time minus pause duration
+      elapsed = (Date.now() - examState.startTime - examState.totalPauseDuration) / 1000;
+    }
+    
+    elapsed = Math.max(0, Math.floor(elapsed));
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    document.getElementById("timer").textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  function updateTypingStats() {
+    if (examState.timerPaused) return;
+    
+    const content = document.getElementById("content").value.trim();
+    const wordCount = content.split(/\s+/).filter(Boolean).length;
+    const elapsedMinutes = getElapsedMinutes();
+
+    document.getElementById("wordCount").textContent = wordCount;
+    document.getElementById("typingSpeed").textContent =
+      elapsedMinutes > 0 ? Math.floor(wordCount / elapsedMinutes) : 0;
+  }
+
+  function getElapsedMinutes() {
+    if (!examState.startTime) return 0;
+    
+    let elapsed;
+    if (examState.timerPaused) {
+      elapsed = examState.pauseStartTime - examState.startTime - examState.totalPauseDuration;
+    } else {
+      elapsed = Date.now() - examState.startTime - examState.totalPauseDuration;
+    }
+    
+    return Math.max(0, elapsed) / MS_PER_MINUTE;
+  }
+
+  function updateWordCount() {
+    const content = document.getElementById("content").value.trim();
+    const wordCount = content.split(/\s+/).filter(Boolean).length;
+    document.getElementById("wordCount").textContent = wordCount;
+  }
+
+  function toggleTimer() {
+    if (!examState.timerStarted) return;
+
+    const btn = document.getElementById("pauseBtn");
+    
+    if (examState.timerPaused) {
+      // Resume timer
+      const pauseDuration = Date.now() - examState.pauseStartTime;
+      examState.totalPauseDuration += pauseDuration;
+      examState.timerPaused = false;
+      examState.pauseStartTime = null;
+      
+      localStorage.setItem(STORAGE_KEYS.PAUSE_DURATION, examState.totalPauseDuration);
+      localStorage.setItem(STORAGE_KEYS.IS_PAUSED, 'false');
+      
+      startActiveTimer();
+      btn.innerHTML = "⏸ Pause";
+      btn.className = "btn-timer btn-pause";
+      updateStatus('active');
+      showMessage("Timer resumed.", "info");
+    } else {
+      // Pause timer
+      examState.timerPaused = true;
+      examState.pauseStartTime = Date.now();
+      
+      localStorage.setItem(STORAGE_KEYS.IS_PAUSED, 'true');
+      
+      stopActiveTimer();
+      btn.innerHTML = "▶ Resume";
+      btn.className = "btn-timer btn-resume";
+      updateStatus('paused');
+      showMessage("Timer paused. Click Resume to continue.", "warning");
+    }
+  }
+
+  function resetTimer() {
+    if (!confirm("Are you sure you want to reset the timer? This will clear all progress!")) {
+      return;
+    }
+    
+    // Clear all timers
+    stopActiveTimer();
+    clearInterval(examState.autoSaveInterval);
+    
+    // Reset state
+    examState = {
+      startTime: null,
+      timerStarted: false,
+      timerPaused: false,
+      timerInterval: null,
+      typingInterval: null,
+      autoSaveInterval: null,
+      pauseStartTime: null,
+      totalPauseDuration: 0,
+      lastTypingTime: null,
+      totalKeystrokes: 0
+    };
+    
+    // Clear localStorage
+    Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+    
+    // Reset UI
+    document.getElementById("timer").textContent = "0:00";
+    document.getElementById("wordCount").textContent = "0";
+    document.getElementById("typingSpeed").textContent = "0";
+    document.getElementById("title").value = "";
+    document.getElementById("content").value = "";
+    document.getElementById("pauseBtn").innerHTML = "⏸ Pause";
+    document.getElementById("pauseBtn").className = "btn-timer btn-pause";
+    
+    updateStatus('ready');
+    setupAutoSave();
+    showMessage("Timer reset successfully.", "info");
+  }
+
+  function updateStatus(status) {
+    const statusEl = document.getElementById("status");
+    statusEl.className = "status-badge";
+    
+    switch(status) {
+      case 'active':
+        statusEl.textContent = "Active";
+        statusEl.classList.add("status-active");
+        break;
+      case 'paused':
+        statusEl.textContent = "Paused";
+        statusEl.classList.add("status-paused");
+        break;
+      case 'ready':
+      default:
+        statusEl.textContent = "Ready";
+        statusEl.classList.add("status-active");
+        break;
+    }
+  }
+
+  function setupAutoSave() {
+    examState.autoSaveInterval = setInterval(autoSave, AUTO_SAVE_INTERVAL);
+  }
+
+  function autoSave() {
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+    
+    localStorage.setItem(STORAGE_KEYS.TITLE, title);
+    localStorage.setItem(STORAGE_KEYS.CONTENT, content);
+    
+    // Update auto-save indicator
+    const indicator = document.getElementById("autoSaveStatus");
+    indicator.textContent = "✓ Saved";
+    indicator.style.color = "#28a745";
+    
+    setTimeout(() => {
+      indicator.style.color = "#6c757d";
+    }, 2000);
+  }
+
+  function setupBeforeUnload() {
+    window.addEventListener('beforeunload', function(e) {
+      if (examState.timerStarted && (document.getElementById("content").value.trim() || document.getElementById("title").value.trim())) {
+        const message = "You have unsaved work. Are you sure you want to leave?";
+        e.returnValue = message;
+        return message;
+      }
+    });
+  }
+
+  function copyContent() {
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
+    
+    if (!title && !content) {
+      showMessage("Nothing to copy!", "warning");
+      return;
+    }
+    
+    const fullText = title ? `Title: ${title}\n\n${content}` : content;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullText).then(() => {
+        showMessage("Content copied to clipboard!", "success");
+      }).catch(() => {
+        fallbackCopyTextToClipboard(fullText);
+      });
+    } else {
+      fallbackCopyTextToClipboard(fullText);
+    }
+  }
+
+  function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        showMessage("Content copied to clipboard!", "success");
+      } else {
+        showMessage("Failed to copy content.", "error");
+      }
+    } catch (err) {
+      showMessage("Failed to copy content.", "error");
+    }
+    
+    document.body.removeChild(textArea);
+  }
+
+  function submitArticle() {
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
+    
+    if (!content) {
+      showMessage("Please write some content before submitting.", "error");
+      return;
+    }
+    
+    if (!title) {
+      if (!confirm("No title provided. Submit anyway?")) {
+        return;
+      }
+    }
+    
+    // Stop all timers
+    stopActiveTimer();
+    clearInterval(examState.autoSaveInterval);
+
+    const wordCount = content.split(/\s+/).filter(Boolean).length;
+    const timeSpent = document.getElementById("timer").textContent;
+    const elapsedMinutes = getElapsedMinutes();
+    const typingSpeed = elapsedMinutes > 0 ? Math.floor(wordCount / elapsedMinutes) : 0;
+
+    // Show submitting message
+    showMessage("Submitting your article...", "info");
+    
+    const submitData = {
+      title: title || "Untitled",
+      content: content,
+      wordCount: wordCount,
+      timeSpent: timeSpent,
+      typingSpeed: typingSpeed
+    };
+
+    fetch("/save_article", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(submitData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showMessage(data.message || "Article submitted successfully!", "success");
+        
+        // Clear saved data after successful submission
+        Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+        
+        // Optionally redirect to dashboard after 3 seconds
+        setTimeout(() => {
+          if (confirm("Article submitted successfully! Go to dashboard to view it?")) {
+            window.location.href = "/dashboard";
+          }
+        }, 3000);
+      } else {
+        showMessage(data.error || "Failed to submit article.", "error");
+        // Restart auto-save if submission failed
+        setupAutoSave();
+      }
+    })
+    .catch(error => {
+      showMessage("Network error. Please check your connection and try again.", "error");
+      console.error("Submission error:", error);
+      // Restart auto-save if submission failed
+      setupAutoSave();
+    });
+  }
+
+  function showMessage(text, type = "info") {
+    const messageEl = document.getElementById("message");
+    const containerEl = document.getElementById("messageContainer");
+    
+    messageEl.textContent = text;
+    containerEl.className = `message-area show text-${type === "error" ? "danger" : type === "warning" ? "warning" : type === "success" ? "success" : "info"}`;
+    
+    // Auto-clear non-error messages
+    if (type !== "error") {
+      setTimeout(() => {
+        containerEl.className = "message-area";
+        messageEl.textContent = "";
+      }, 4000);
+    }
+  }
+
+  // Event listeners
+  document.getElementById("content").addEventListener("input", function() {
+    examState.lastTypingTime = Date.now();
+    examState.totalKeystrokes++;
+    
+    // Only start timer when user types in the content textarea
+    if (!examState.timerStarted) {
+      startTimer();
+    }
+    
+    updateWordCount();
+    
+    // Trigger auto-save indicator update
+    const indicator = document.getElementById("autoSaveStatus");
+    indicator.textContent = "💾 Saving...";
+    indicator.style.color = "#ffc107";
+  });
+
+  // Title input - no timer start, just auto-save
+  document.getElementById("title").addEventListener("input", function() {
+    // Don't start timer for title input - only save the title
+    // Auto-save will handle saving the title content
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener("keydown", function(e) {
+    // Ctrl/Cmd + S to save (prevent browser save)
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      autoSave();
+      showMessage("Manual save completed!", "success");
+    }
+    
+    // Ctrl/Cmd + Enter to submit
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      submitArticle();
+    }
+  });
+</script>
+
+</body>
+</html>

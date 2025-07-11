@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Management - Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    .header-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      color: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .table {
+      color: white;
+      margin: 0;
+    }
+
+    .table th {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      padding: 1rem;
+    }
+
+    .table td {
+      border: none;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+      border-radius: 8px;
+      font-weight: 500;
+      margin: 2px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      border: none;
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      border: none;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+      border: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .badge {
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-weight: 500;
+    }
+
+    .nav-pills {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .nav-pills .nav-link {
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      margin: 0.25rem;
+    }
+
+    .nav-pills .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid p-4">
+    <!-- Header -->
+    <div class="header-card">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2><i class="bi bi-clipboard-check"></i> Test Management</h2>
+          <p class="mb-0">Create tests, manage questions, and view submissions</p>
+        </div>
+        <div>
+          <a href="/admin" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left"></i> Back to Admin
+          </a>
+          <a href="/logout" class="btn btn-secondary">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-pills" id="testTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="create-tab" data-bs-toggle="pill" data-bs-target="#create" type="button">
+          <i class="bi bi-plus-circle"></i> Create Test
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="manage-tab" data-bs-toggle="pill" data-bs-target="#manage" type="button">
+          <i class="bi bi-gear"></i> Manage Tests
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="submissions-tab" data-bs-toggle="pill" data-bs-target="#submissions" type="button">
+          <i class="bi bi-file-text"></i> View Submissions
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="testTabsContent">
+      
+      <!-- Create Test Tab -->
+      <div class="tab-pane fade show active" id="create" role="tabpanel">
+        <div class="content-card p-4">
+          <h4 class="text-white mb-4">Create New Test</h4>
+          
+          <form id="createTestForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label text-white">Test Title *</label>
+                <input type="text" class="form-control" id="testTitle" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label text-white">Time Limit (minutes) *</label>
+                <input type="number" class="form-control" id="timeLimit" min="1" max="300" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label text-white">Description</label>
+              <textarea class="form-control" id="testDescription" rows="2"></textarea>
+            </div>
+
+            <h5 class="text-white mb-3">Questions</h5>
+            <div id="questionsContainer">
+              <div class="question-item mb-3 p-3" style="background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <div class="row">
+                  <div class="col-md-10 mb-2">
+                    <label class="form-label text-white">Question 1 *</label>
+                    <textarea class="form-control question-text" rows="3" placeholder="Enter your question here..." required></textarea>
+                  </div>
+                  <div class="col-md-2 mb-2">
+                    <label class="form-label text-white">Marks</label>
+                    <input type="number" class="form-control question-marks" min="0" value="0">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="button" class="btn btn-secondary" onclick="addQuestion()">
+                <i class="bi bi-plus"></i> Add Question
+              </button>
+              <button type="button" class="btn btn-warning" onclick="removeLastQuestion()">
+                <i class="bi bi-dash"></i> Remove Last
+              </button>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle"></i> Create Test
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Manage Tests Tab -->
+      <div class="tab-pane fade" id="manage" role="tabpanel">
+        <div class="content-card">
+          <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+            <h4 class="text-white mb-0">All Tests</h4>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Questions</th>
+                  <th>Time Limit</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="testsTableBody">
+                <tr>
+                  <td colspan="6" class="text-center">Loading tests...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submissions Tab -->
+      <div class="tab-pane fade" id="submissions" role="tabpanel">
+        <div class="content-card">
+          <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+            <h4 class="text-white mb-0">Test Submissions</h4>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Test</th>
+                  <th>Started</th>
+                  <th>Completed</th>
+                  <th>Time Taken</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsTableBody">
+                <tr>
+                  <td colspan="7" class="text-center">Loading submissions...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Answers Modal -->
+  <div class="modal fade" id="answersModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="answersModalTitle">Test Answers</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="answersModalBody">
+          <div class="text-center">Loading answers...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    var questionCount = 1;
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTests();
+      loadSubmissions();
+    });
+
+    // Create Test Functions
+    function addQuestion() {
+      questionCount++;
+      var container = document.getElementById('questionsContainer');
+      var questionDiv = document.createElement('div');
+      questionDiv.className = 'question-item mb-3 p-3';
+      questionDiv.style = 'background: rgba(255,255,255,0.1); border-radius: 8px;';
+      
+      questionDiv.innerHTML = `
+        <div class="row">
+          <div class="col-md-10 mb-2">
+            <label class="form-label text-white">Question ${questionCount} *</label>
+            <textarea class="form-control question-text" rows="3" placeholder="Enter your question here..." required></textarea>
+          </div>
+          <div class="col-md-2 mb-2">
+            <label class="form-label text-white">Marks</label>
+            <input type="number" class="form-control question-marks" min="0" value="0">
+          </div>
+        </div>
+      `;
+      
+      container.appendChild(questionDiv);
+    }
+
+    function removeLastQuestion() {
+      if (questionCount > 1) {
+        var container = document.getElementById('questionsContainer');
+        container.removeChild(container.lastElementChild);
+        questionCount--;
+      }
+    }
+
+    // Handle form submission
+    document.getElementById('createTestForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      var title = document.getElementById('testTitle').value.trim();
+      var timeLimit = parseInt(document.getElementById('timeLimit').value);
+      var description = document.getElementById('testDescription').value.trim();
+      
+      var questions = [];
+      var questionItems = document.querySelectorAll('.question-item');
+      
+      for (var i = 0; i < questionItems.length; i++) {
+        var text = questionItems[i].querySelector('.question-text').value.trim();
+        var marks = parseInt(questionItems[i].querySelector('.question-marks').value) || 0;
+        
+        if (text) {
+          questions.push({
+            text: text,
+            marks: marks
+          });
+        }
+      }
+      
+      if (!title || !timeLimit || questions.length === 0) {
+        alert('Please fill in all required fields and add at least one question.');
+        return;
+      }
+      
+      fetch('/admin/create_test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          description: description,
+          time_limit: timeLimit,
+          questions: questions
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success) {
+          alert('Test created successfully!');
+          document.getElementById('createTestForm').reset();
+          questionCount = 1;
+          document.getElementById('questionsContainer').innerHTML = `
+            <div class="question-item mb-3 p-3" style="background: rgba(255,255,255,0.1); border-radius: 8px;">
+              <div class="row">
+                <div class="col-md-10 mb-2">
+                  <label class="form-label text-white">Question 1 *</label>
+                  <textarea class="form-control question-text" rows="3" placeholder="Enter your question here..." required></textarea>
+                </div>
+                <div class="col-md-2 mb-2">
+                  <label class="form-label text-white">Marks</label>
+                  <input type="number" class="form-control question-marks" min="0" value="0">
+                </div>
+              </div>
+            </div>
+          `;
+          loadTests();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch(function(error) {
+        alert('Network error. Please try again.');
+      });
+    });
+
+    function loadTests() {
+      fetch('/admin/get_all_tests')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var tbody = document.getElementById('testsTableBody');
+          if (data.success && data.tests.length > 0) {
+            var html = '';
+            for (var i = 0; i < data.tests.length; i++) {
+              var test = data.tests[i];
+              html += `
+                <tr>
+                  <td><strong>${test.title}</strong></td>
+                  <td>${test.question_count}</td>
+                  <td>${test.time_limit} min</td>
+                  <td><span class="badge ${test.is_active ? 'bg-success' : 'bg-secondary'}">${test.is_active ? 'Active' : 'Inactive'}</span></td>
+                  <td>${test.created_at}</td>
+                  <td>
+                    <button class="btn btn-warning btn-sm" onclick="toggleTestStatus(${test.id})">
+                      ${test.is_active ? 'Deactivate' : 'Activate'}
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteTest(${test.id})">Delete</button>
+                  </td>
+                </tr>
+              `;
+            }
+            tbody.innerHTML = html;
+          } else {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No tests created yet</td></tr>';
+          }
+        })
+        .catch(function(error) {
+          document.getElementById('testsTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error loading tests</td></tr>';
+        });
+    }
+
+    function loadSubmissions() {
+      fetch('/admin/get_all_submissions')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var tbody = document.getElementById('submissionsTableBody');
+          if (data.success && data.submissions.length > 0) {
+            var html = '';
+            for (var i = 0; i < data.submissions.length; i++) {
+              var sub = data.submissions[i];
+              html += `
+                <tr>
+                  <td>${sub.user_name} (${sub.user_id})</td>
+                  <td>${sub.test_title}</td>
+                  <td>${sub.started_at}</td>
+                  <td>${sub.completed_at || 'In Progress'}</td>
+                  <td>${sub.time_taken ? Math.floor(sub.time_taken / 60) + ' min' : '-'}</td>
+                  <td><span class="badge ${sub.status === 'completed' ? 'bg-success' : 'bg-warning'}">${sub.status}</span></td>
+                  <td>
+                    ${sub.status === 'completed' ? 
+                      `<button class="btn btn-primary btn-sm" onclick="viewAnswers(${sub.id})">View Answers</button>` : 
+                      'In Progress'
+                    }
+                  </td>
+                </tr>
+              `;
+            }
+            tbody.innerHTML = html;
+          } else {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No submissions yet</td></tr>';
+          }
+        })
+        .catch(function(error) {
+          document.getElementById('submissionsTableBody').innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error loading submissions</td></tr>';
+        });
+    }
+
+    function toggleTestStatus(testId) {
+      if (confirm('Toggle test status?')) {
+        fetch('/admin/toggle_test_status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ test_id: testId })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success) {
+            alert(data.message);
+            loadTests();
+          } else {
+            alert('Error: ' + data.error);
+          }
+        });
+      }
+    }
+
+    function deleteTest(testId) {
+      if (confirm('Delete this test? This will remove all associated data.')) {
+        fetch('/admin/delete_test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ test_id: testId })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success) {
+            alert(data.message);
+            loadTests();
+          } else {
+            alert('Error: ' + data.error);
+          }
+        });
+      }
+    }
+
+    function viewAnswers(attemptId) {
+      document.getElementById('answersModalTitle').innerHTML = 'Test Answers - Loading...';
+      document.getElementById('answersModalBody').innerHTML = '<div class="text-center">Loading answers...</div>';
+      
+      var modal = new bootstrap.Modal(document.getElementById('answersModal'));
+      modal.show();
+      
+      fetch('/admin/get_test_answers/' + attemptId)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success) {
+            document.getElementById('answersModalTitle').innerHTML = 'Test Answers - ' + data.user_name;
+            
+            var html = '';
+            for (var i = 0; i < data.answers.length; i++) {
+              var answer = data.answers[i];
+              html += `
+                <div class="mb-4">
+                  <h6>Question ${i + 1}: ${answer.question_text}</h6>
+                  <div class="p-3 bg-light rounded">
+                    <p style="white-space: pre-wrap;">${answer.answer_text || 'No answer provided'}</p>
+                    <small class="text-muted">Word count: ${answer.word_count} words</small>
+                  </div>
+                </div>
+              `;
+            }
+            document.getElementById('answersModalBody').innerHTML = html;
+          } else {
+            document.getElementById('answersModalBody').innerHTML = '<div class="text-center text-danger">Error loading answers</div>';
+          }
+        })
+        .catch(function(error) {
+          document.getElementById('answersModalBody').innerHTML = '<div class="text-center text-danger">Network error</div>';
+        });
+    }
+  </script>
+</body>
+</html>
